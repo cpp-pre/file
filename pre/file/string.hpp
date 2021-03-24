@@ -11,20 +11,20 @@ namespace pre::file {
   using namespace std::string_literals;
 
   //! Simply read the path and return it's content as string as-is without formatting (binary one-to-one)
-  inline std::string to_string(const std::string& path, std::error_condition& ec);
+  inline std::string to_string(const std::string &path, std::error_condition &ec);
 
   //! Simply read the path and return it's content as string as-is without formatting (binary one-to-one ).
   //! Throws on error
-  inline std::string to_string(const std::string& path);
+  inline std::string to_string(const std::string &path);
 
   //! Simply truncates path and write in it's place the new content
-  inline void from_string(const std::string& path, const std::string& content, std::error_condition& ec);
-  
+  inline void from_string(const std::string &path, const std::string &content, std::error_condition &ec);
+
   //! Simply truncates path and content in it's place the new content
   //! Throws on error
-  inline void from_string(const std::string& path, const std::string& content);
+  inline void from_string(const std::string &path, const std::string &content);
 
-  inline std::string to_string(const std::string& path, std::error_condition& ec) {
+  inline std::string to_string(const std::string &path, std::error_condition &ec) {
 
     std::ifstream ifs(path, std::ios::in | std::ios::binary);
     if (!ifs.is_open()) {
@@ -52,7 +52,7 @@ namespace pre::file {
     return content;
   }
 
-  inline std::string to_string(const std::string& path) {
+  inline std::string to_string(const std::string &path) {
     std::error_condition ec{};
     auto ret = to_string(path, ec);
 
@@ -63,7 +63,7 @@ namespace pre::file {
     return ret;
   }
 
-  inline void from_string(const std::string& path, const std::string& content, std::error_condition& ec) {
+  inline void from_string(const std::string &path, const std::string &content, std::error_condition &ec) {
 
     boost::filesystem::create_directories(boost::filesystem::path(path).parent_path());
 
@@ -82,7 +82,7 @@ namespace pre::file {
     }
   }
 
-  inline void from_string(const std::string& path, const std::string& content) {
+  inline void from_string(const std::string &path, const std::string &content) {
     std::error_condition ec{};
     from_string(path, content, ec);
 
