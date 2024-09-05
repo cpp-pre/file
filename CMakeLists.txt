@@ -20,10 +20,13 @@ include (FetchContent)
 FetchContent_Declare(
   Boost
   GIT_REPOSITORY https://github.com/boostorg/boost.git
-  # boost 1.85
-  GIT_TAG         ab7968a0bbcf574a7859240d1d8443f58ed6f6cf
+  # boost 1.80
+  GIT_TAG         32da69a36f84c5255af8a994951918c258bac601
 )
 FetchContent_MakeAvailable(Boost)
+find_package(boost_filesystem CONFIG REQUIRED)
+find_package(boost_system CONFIG REQUIRED)
+find_package(boost_uuid CONFIG REQUIRED)
 
 # Define library
 add_library(file INTERFACE )
@@ -121,59 +124,59 @@ install(
     DESTINATION "${config_install_dir}"
 )
 
-# This overcomes the issue with "cpp-pre_file::file depends on targets 
-# that are in no EXPORT sets in plain cmake non cmake-tipi-provider contexts
-set(BOOST_TARGETS boost_filesystem boost_system boost_uuid 
-  boost_assert
-  boost_atomic
-  boost_config
-  boost_container_hash
-  boost_core
-  boost_detail
-  boost_io
-  boost_iterator
-  boost_move
-  boost_numeric_conversion
-  boost_predef
-  boost_random
-  boost_scope
-  boost_smart_ptr
-  boost_static_assert
-  boost_throw_exception
-  boost_tti
-  boost_type_traits
-  boost_variant2
-  boost_winapi
-  boost_align
-  boost_array
-  boost_concept_check
-  boost_conversion
-  boost_describe
-  boost_dynamic_bitset
-  boost_function_types
-  boost_fusion
-  boost_integer
-  boost_mp11
-  boost_mpl
-  boost_optional
-  boost_preprocessor
-  boost_range
-  boost_utility
-  boost_tuple
-  boost_typeof
-  boost_functional
-  boost_regex
-  boost_function
-  boost_bind
-)
-install(
-    TARGETS ${BOOST_TARGETS}
-    EXPORT "${targets_export_name}"
-    LIBRARY DESTINATION "lib"
-    ARCHIVE DESTINATION "lib"
-    RUNTIME DESTINATION "bin"
-    INCLUDES DESTINATION "${include_install_dir}"
-)
+## This overcomes the issue with "cpp-pre_file::file depends on targets 
+## that are in no EXPORT sets in plain cmake non cmake-tipi-provider contexts
+#set(BOOST_TARGETS boost_filesystem boost_system boost_uuid 
+#  boost_assert
+#  boost_atomic
+#  boost_config
+#  boost_container_hash
+#  boost_core
+#  boost_detail
+#  boost_io
+#  boost_iterator
+#  boost_move
+#  boost_numeric_conversion
+#  boost_predef
+#  boost_random
+#  boost_scope
+#  boost_smart_ptr
+#  boost_static_assert
+#  boost_throw_exception
+#  boost_tti
+#  boost_type_traits
+#  boost_variant2
+#  boost_winapi
+#  boost_align
+#  boost_array
+#  boost_concept_check
+#  boost_conversion
+#  boost_describe
+#  boost_dynamic_bitset
+#  boost_function_types
+#  boost_fusion
+#  boost_integer
+#  boost_mp11
+#  boost_mpl
+#  boost_optional
+#  boost_preprocessor
+#  boost_range
+#  boost_utility
+#  boost_tuple
+#  boost_typeof
+#  boost_functional
+#  boost_regex
+#  boost_function
+#  boost_bind
+#)
+#install(
+#    TARGETS ${BOOST_TARGETS}
+#    EXPORT "${targets_export_name}"
+#    LIBRARY DESTINATION "lib"
+#    ARCHIVE DESTINATION "lib"
+#    RUNTIME DESTINATION "bin"
+#    INCLUDES DESTINATION "${include_install_dir}"
+#)
 
 install(
     EXPORT "${targets_export_name}"
