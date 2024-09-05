@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 3.17.0)
+cmake_minimum_required(VERSION 3.27.6)
 project(cpp-pre_file VERSION "0.0.1")
 
-# testing stuff
 enable_testing()
 
 # Warning as errors to ensure file quality
@@ -17,6 +16,7 @@ endif()
 
 find_package(Threads)
 
+include (FetchContent)
 FetchContent_Declare(
   Boost
   GIT_REPOSITORY https://github.com/boostorg/boost.git
@@ -120,6 +120,59 @@ install(
     FILES "${project_config}" "${version_config}"
     DESTINATION "${config_install_dir}"
 )
+
+set(BOOST_TARGETS boost_filesystem boost_system boost_uuid 
+boost_assert
+boost_atomic
+boost_config
+boost_container_hash
+boost_core
+boost_detail
+boost_io
+boost_iterator
+boost_move
+boost_numeric_conversion
+boost_predef
+boost_random
+boost_scope
+boost_smart_ptr
+boost_static_assert
+boost_throw_exception
+boost_tti
+boost_type_traits
+boost_variant2
+boost_winapi
+boost_align
+boost_array
+boost_concept_check
+boost_conversion
+boost_describe
+boost_dynamic_bitset
+boost_function_types
+boost_fusion
+boost_integer
+boost_mp11
+boost_mpl
+boost_optional
+boost_preprocessor
+boost_range
+boost_utility
+boost_tuple
+boost_typeof
+boost_functional
+boost_regex
+boost_function
+boost_bind
+)
+install(
+    TARGETS ${BOOST_TARGETS}
+    EXPORT "${targets_export_name}"
+    LIBRARY DESTINATION "lib"
+    ARCHIVE DESTINATION "lib"
+    RUNTIME DESTINATION "bin"
+    INCLUDES DESTINATION "${include_install_dir}"
+)
+
 install(
     EXPORT "${targets_export_name}"
     NAMESPACE "${namespace}"
