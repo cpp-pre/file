@@ -105,7 +105,7 @@ install(
 
 # Headers:
 install(
-    DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+    DIRECTORY pre
     DESTINATION "${include_install_dir}"
     FILES_MATCHING PATTERN "*.[ih]*"
     PATTERN build/ EXCLUDE
