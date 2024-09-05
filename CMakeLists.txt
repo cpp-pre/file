@@ -32,6 +32,8 @@ find_package(boost_uuid CONFIG REQUIRED)
 add_library(file INTERFACE )
 add_library(cpp-pre_file::file ALIAS file)
 
+set(include_install_dir "include")
+
 target_include_directories(file BEFORE INTERFACE 
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}> 
   $<INSTALL_INTERFACE:${include_install_dir}/>)
@@ -41,7 +43,6 @@ target_link_libraries(file INTERFACE
   ${CMAKE_THREAD_LIBS_INIT}
 )
 
-set(include_install_dir "include")
 
 # Targets:
 install(
