@@ -49,7 +49,7 @@ int main() {
     std::cout << "Modifying '" << testdata_path << "' & hashing again \n"
         << " - computed: " << hashed_modified << std::endl;
 
-    assert(hashed_modified == hashed_initial);
+    assert(hashed_modified != hashed_initial);
 
     std::cout << " [PASS]" << std::endl;
 
