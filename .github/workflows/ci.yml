@@ -7,6 +7,9 @@ jobs:
     name: build-linux
     runs-on: ubuntu-latest
     container: tipibuild/tipi-ubuntu
+    env:
+      TIPI_CACHE_FORCE_ENABLE: ON
+      CMAKE_TIPI_PROVIDER_ENABLE: ON
     steps:
       - name: checkout
         uses: actions/checkout@v2
