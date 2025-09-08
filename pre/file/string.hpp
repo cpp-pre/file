@@ -91,14 +91,19 @@ namespace pre::file {
     }
   }
 
-  inline void from_string(const std::string &path, const std::string &content, std::error_condition &ec,const boost::filesystem::perms& perms) {
+  inline void from_string(const std::string &path, const std::string &content, std::error_condition &ec,const boost::filesystem::perms& perms,  boost::system::error_code& ec_perms) {
     from_string(path, content, ec);
-    boost::filesystem::permissions(path, perms);
+    boost::filesystem::permissions(path, perms, ec_perms);
   }
 
   inline void from_string(const std::string &path, const std::string &content, const boost::filesystem::perms& perms) {
+    boost::system::error_code ec_perms;
     from_string(path, content);
-    boost::filesystem::permissions(path, perms);
+    boost::filesystem::permissions(path, perms, ec_perms);
+
+    if (ec_perms) {
+      throw std::runtime_error("Changing permission of file "s + path + " error "s + ec_perms.message());
+    }
   }
 
 
