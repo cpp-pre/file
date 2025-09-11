@@ -91,9 +91,14 @@ namespace pre::file {
     }
   }
 
-  inline void from_string(const std::string &path, const std::string &content, std::error_condition &ec,const boost::filesystem::perms& perms,  boost::system::error_code& ec_perms) {
+  inline void from_string(const std::string &path, const std::string &content, std::error_condition &ec,const boost::filesystem::perms& perms) {
     from_string(path, content, ec);
+    if (ec){return;}
+    boost::system::error_code ec_perms{};
     boost::filesystem::permissions(path, perms, ec_perms);
+    if(ec_perms){
+      ec = std::error_condition{ec_perms.value(), ec_perms.category()};
+    }
   }
 
   inline void from_string(const std::string &path, const std::string &content, const boost::filesystem::perms& perms) {
