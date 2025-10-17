@@ -14,44 +14,36 @@ if ("${COMPILER_IN_USE}" STREQUAL "GNU" OR "${COMPILER_IN_USE}" MATCHES "CLANG")
   )
 endif()
 
-find_package(Threads)
-
 include (FetchContent)
 FetchContent_Declare(
   Boost
-  GIT_REPOSITORY https://github.com/boostorg/boost.git
-  # boost 1.80
-  GIT_TAG         32da69a36f84c5255af8a994951918c258bac601
+  GIT_REPOSITORY https://github.com/nxxm/boost.git
+  # boost-1.89.0 with updates
+  GIT_TAG        23090bb21676cb22f1d4ceed21d59fda8b420cc9
+  EXCLUDE_FROM_ALL
 )
 FetchContent_MakeAvailable(Boost)
-find_package(boost_filesystem CONFIG REQUIRED)
-find_package(boost_system CONFIG REQUIRED)
-find_package(boost_uuid CONFIG REQUIRED)
+find_package(boost_filesystem CONFIG)
+find_package(boost_system CONFIG)
+find_package(boost_uuid CONFIG)
 
 # Define library
-add_library(file INTERFACE )
+add_library(file INTERFACE)
 add_library(cpp-pre_file::file ALIAS file)
-
-set(include_install_dir "include")
-
-target_include_directories(file BEFORE INTERFACE 
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}> 
-  $<INSTALL_INTERFACE:${include_install_dir}/>)
-
-target_link_libraries(file INTERFACE 
-  Boost::system Boost::filesystem Boost::uuid 
-  ${CMAKE_THREAD_LIBS_INIT}
+target_sources(file
+  PUBLIC
+  FILE_SET HEADERS
+  FILES
+    pre/file/hash.hpp
+    pre/file/string.hpp
+    pre/file/home.hpp
 )
+target_compile_features(file INTERFACE cxx_std_17)
 
-
-# Targets:
-install(
-    TARGETS 
-    EXPORT "${targets_export_name}"
-    LIBRARY DESTINATION "lib"
-    ARCHIVE DESTINATION "lib"
-    RUNTIME DESTINATION "bin"
-    INCLUDES DESTINATION "${include_install_dir}"
+target_link_libraries(file INTERFACE
+  Boost::filesystem  
+  Boost::system
+  Boost::uuid
 )
 
 add_subdirectory(tests)
@@ -100,7 +92,7 @@ install(
     LIBRARY DESTINATION "lib"
     ARCHIVE DESTINATION "lib"
     RUNTIME DESTINATION "bin"
-    INCLUDES DESTINATION "${include_install_dir}"
+    FILE_SET HEADERS DESTINATION "include"
 )
 
 # Headers:
